@@ -15,4 +15,4 @@ jobs:
 
       - name: Build Dockerfile
         run: |
-          docker build . --file src/13/Dockerfile --tag @saeon/postgis:13
+          docker build . --file src/13/Dockerfile --tag saeon/postgis:13
