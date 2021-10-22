@@ -15,4 +15,4 @@ jobs:
 
       - name: Build Dockerfile
         run: |
-          echo hi there
+          docker build . --file src/13/Dockerfile --tag @saeon/postgis:13
