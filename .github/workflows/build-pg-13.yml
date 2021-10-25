@@ -5,14 +5,18 @@ on:
     branches:
       - 13
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}      
+
 jobs:
   deploy:
-    runs-on: github-runner.saeon.int
+    runs-on: ubuntu-latest
     steps:
       - uses: SAEON/checkout@v2
         with:
           ref: 13
 
-      - name: Build Dockerfile
+      - name: Log in to the Container registry
         run: |
-          docker build . --file src/13/Dockerfile --tag saeon/postgis:13
+          echo hi
