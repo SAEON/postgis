@@ -18,5 +18,12 @@ jobs:
           ref: 13
 
       - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.MANAGE_SAEON_REGISTRY }}
+
+      - name: Build Dockerfile
         run: |
           echo hi
