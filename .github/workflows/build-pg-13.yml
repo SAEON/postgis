@@ -22,7 +22,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.MANAGE_SAEON_REGISTRY }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Dockerfile
         run: |
