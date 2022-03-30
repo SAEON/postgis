@@ -10,10 +10,10 @@ env:
   IMAGE_NAME: ${{ github.repository }}      
 
 jobs:
-  deploy:
+  build-docker-image:
     runs-on: ubuntu-latest
     steps:
-      - uses: SAEON/checkout@v2
+      - uses: actions/checkout@v2
         with:
           ref: 14
 
@@ -34,7 +34,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: src/13
+          context: src/14
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
