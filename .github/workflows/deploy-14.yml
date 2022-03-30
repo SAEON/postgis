@@ -8,7 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  BRANCH_REF: 14 
+  BRANCH_REF: 14
 
 jobs:
   build-docker-image:
