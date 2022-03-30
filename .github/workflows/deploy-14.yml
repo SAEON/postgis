@@ -7,15 +7,19 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}      
+  IMAGE_NAME: ${{ github.repository }}
+  BRANCH_REF: 14 
 
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.meta.outputs.tags }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v3
         with:
-          ref: 14
+          ref: ${{ env.BRANCH_REF }}
 
       - name: Log in to the Container registry
         if: github.event_name != 'pull_request'
@@ -30,11 +34,43 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: src/14
+          context: src/${{ env.BRANCH_REF }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: [build-docker-image]
+    runs-on: github-runner.saeon.int
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.BRANCH_REF }}
+        
+      - name: (SCP) Copy Docker files to app server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOSTNAME }}
+          username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
+          password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
+          port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
+          source: deploy/14/docker-compose.yml
+          target: postgis
+
+      - name: (SSH) Deploy Docker stack
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOSTNAME }}
+          username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
+          password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
+          port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
+          script: |
+            echo "POSTGIS_IMAGE=${{ needs.build-docker-image.outputs.image }} > /home/runner/postgis/deploy/14/docker-compose.env"
+            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/deploy/14/docker-compose.yml /home/runner/postgis/deploy/14/docker-compose.env postgis_14

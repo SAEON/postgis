@@ -1,0 +1,39 @@
+version: '3.8'
+
+networks:
+  v14:
+    name: v14
+    driver: overlay
+    attachable: true
+
+volumes:
+  pgdata:
+    driver: local
+
+services:
+  postgres:
+    image: $POSTGIS_IMAGE
+    deploy:
+      replicas: 1
+      rollback_config:
+        parallelism: 0
+      update_config:
+        parallelism: 0
+        order: stop-first
+        failure_action: rollback
+      restart_policy:
+        condition: any
+        delay: 30s
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata
+    networks:
+      - v14
