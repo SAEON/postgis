@@ -11,7 +11,7 @@ volumes:
     driver: local
 
 services:
-  postgres:
+  postgis:
     image: $POSTGIS_IMAGE
     deploy:
       replicas: 1
