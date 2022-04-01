@@ -61,7 +61,7 @@ jobs:
           username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
           password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
-          source: deploy/14/docker-compose.yml
+          source: 14/docker-compose.yml
           target: postgis
 
       - name: (SSH) Deploy Docker stack
