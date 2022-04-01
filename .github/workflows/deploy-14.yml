@@ -72,5 +72,5 @@ jobs:
           password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
           script: |
-            echo "POSTGIS_IMAGE=${{ needs.build-docker-image.outputs.image }} > /home/runner/postgis/deploy/14/docker-compose.env"
-            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/deploy/14/docker-compose.yml /home/runner/postgis/deploy/14/docker-compose.env postgis_14
+            echo "POSTGIS_IMAGE=${{ needs.build-docker-image.outputs.image }} > /home/runner/postgis/src/14/docker-compose.env"
+            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/src/14/docker-compose.yml /home/runner/postgis/src/14/docker-compose.env postgis_14
