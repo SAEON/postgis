@@ -11,7 +11,7 @@ env:
   BRANCH_REF: 14
 
 jobs:
-  build-docker-image:
+  build:
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.meta.outputs.tags }}
@@ -46,7 +46,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
-    needs: [build-docker-image]
+    needs: [build]
     runs-on: github-runner.saeon.int
     steps:
       - name: Checkout source code
@@ -61,7 +61,7 @@ jobs:
           username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
           password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
-          source: 14/docker-compose.yml
+          source: src/14/docker-compose.yml
           target: postgis
 
       - name: (SSH) Deploy Docker stack
@@ -72,5 +72,7 @@ jobs:
           password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
           script: |
-            echo "POSTGIS_IMAGE=${{ needs.build-docker-image.outputs.image }} > /home/runner/postgis/deploy/14/docker-compose.env"
-            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/deploy/14/docker-compose.yml /home/runner/postgis/deploy/14/docker-compose.env postgis_14
+            echo "POSTGIS_IMAGE=${{ needs.build.outputs.image }}" > /home/runner/postgis/src/14/docker-compose.env
+            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> /home/runner/postgis/src/14/docker-compose.env
+            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> /home/runner/postgis/src/14/docker-compose.env
+            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/src/14/docker-compose.yml /home/runner/postgis/src/14/docker-compose.env postgis_14
