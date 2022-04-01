@@ -19,14 +19,21 @@ This repository builds an image and deploys it to postgis.saeon.ac.za
 ## User management
 ```sql
 -- Create a user
-create user "new_user" with encrypted password 'strong_password';
+create user "username" with encrypted password 'bcSxs9hhJ3L9HZ';
 
--- Give that user admin access to a particular database, and set default privileges for future objects added
-grant all privileges on database some_database to new_user;
-alter default privileges in schema public grant all privileges on tables to new_user;
-alter default privileges in schema public grant all privileges on sequences to new_user;
+-- Give that user admin access to a particular database
+grant all privileges on database "db_name" to "username";
+grant all privileges on all tables in schema public to "username";
+grant all privileges on all sequences in schema public to "username";
+alter default privileges in schema public grant all on tables to "username"
+alter default privileges in schema public grant all on sequences to "username"
+alter default privileges in schema public grant all on functions to "username"
 
--- Adjust privileges for existing objects in public schema
-grant all privileges on all tables in schema public to new_user;
-grant all privileges on all sequences in schema public to new_user;
+-- Revoke access
+revoke all privileges on database "db_name" from "username";
+revoke all privileges on all tables in schema public from "username";
+revoke all privileges on all sequences in schema public from "username";
+alter default privileges for role "username" in schema public revoke all on tables from "username";
+alter default privileges for role "username" in schema public revoke all on sequences from "username";
+alter default privileges for role "username" in schema public revoke all on functions from "username";
 ```
