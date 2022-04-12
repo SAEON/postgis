@@ -19,7 +19,7 @@ This repository builds an image and deploys it to postgis.saeon.ac.za
 ## User management
 ```sql
 -- Create a user
-create user "username" with encrypted password 'bcSxs9hhJ3L9HZ';
+create user "username" with encrypted password 'strongpassword';
 
 -- Give that user admin access to a particular database
 grant all privileges on database "db_name" to "username";
