@@ -25,9 +25,9 @@ create user "username" with encrypted password 'bcSxs9hhJ3L9HZ';
 grant all privileges on database "db_name" to "username";
 grant all privileges on all tables in schema public to "username";
 grant all privileges on all sequences in schema public to "username";
-alter default privileges in schema public grant all on tables to "username"
-alter default privileges in schema public grant all on sequences to "username"
-alter default privileges in schema public grant all on functions to "username"
+alter default privileges in schema public grant all on tables to "username";
+alter default privileges in schema public grant all on sequences to "username";
+alter default privileges in schema public grant all on functions to "username";
 
 -- Revoke access
 revoke all privileges on database "db_name" from "username";
