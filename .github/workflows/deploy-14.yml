@@ -37,6 +37,7 @@ jobs:
           tags: |
             type=sha
             type=raw,latest
+            type=raw,14
 
       - name: Build and push
         uses: docker/build-push-action@v2
