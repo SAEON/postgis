@@ -5,6 +5,7 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents** 
 
+- [Local development](#local-development)
 - [Deployment](#deployment)
 - [Managing Postgres](#managing-postgres)
   - [User management](#user-management)
@@ -18,15 +19,30 @@ The easiest way to work with PostGIS locally is to run the server as a Docker co
 # Create a PostGIS container
 docker run \
   --name postgis \
-  --net=somisana \
+  --net=postgis \
   --restart always \
   -p 5432:5432 \
   -e POSTGRES_USER=admin \
   -e POSTGRES_PASSWORD=password \
-  -e POSTGRES_DB=somisana_local \
+  -e POSTGRES_DB=postgres \
   -e PGDATA=/var/lib/postgresql/data/pgdata \
   -d \
   ghcr.io/saeon/postgis:latest
+
+# Run PGAdmin4
+# Connection details
+#### host: postgis
+#### DB:   postgres
+#### User: admin
+#### Pswd: password 
+docker run \
+  --net=postgis \
+  --name pgadmin \
+  -p 5001:80 \
+  -e PGADMIN_DEFAULT_EMAIL=<your email address> \
+  -e PGADMIN_DEFAULT_PASSWORD=password \
+  -d \
+  dpage/pgadmin4:6.8
 ```
 
 # Deployment
