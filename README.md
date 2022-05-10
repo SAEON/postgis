@@ -16,6 +16,9 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 The easiest way to work with PostGIS locally is to run the server as a Docker container
 
 ```sh
+# Create a Docker network
+docker network create --driver bridge postgis
+
 # Create a PostGIS container
 docker run \
   --name postgis \
