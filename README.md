@@ -11,6 +11,24 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Local development
+The easiest way to work with PostGIS locally is to run the server as a Docker container
+
+```sh
+# Create a PostGIS container
+docker run \
+  --name postgis \
+  --net=somisana \
+  --restart always \
+  -p 5432:5432 \
+  -e POSTGRES_USER=admin \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=somisana_local \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -d \
+  ghcr.io/saeon/postgis:latest
+```
+
 # Deployment
 This repository builds an image and deploys it to postgis.saeon.ac.za
 
