@@ -39,13 +39,14 @@ docker run \
 #### User: admin
 #### Pswd: password 
 docker run \
+  --rm \
   --net=postgis \
   --name pgadmin \
   -p 5001:80 \
   -e PGADMIN_DEFAULT_EMAIL=<your email address> \
   -e PGADMIN_DEFAULT_PASSWORD=password \
   -d \
-  dpage/pgadmin4:6.8
+  dpage/pgadmin4:6.11
 ```
 
 # Deployment
