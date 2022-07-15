@@ -46,7 +46,7 @@ docker run \
   -e PGADMIN_DEFAULT_EMAIL=<your email address> \
   -e PGADMIN_DEFAULT_PASSWORD=password \
   -d \
-  dpage/pgadmin4:6.11
+  dpage/pgadmin4:latest
 ```
 
 # Deployment
