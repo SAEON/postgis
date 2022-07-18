@@ -1,14 +1,15 @@
-name: deploy@14
+name: Build ghcr.io/saeon/postgis:14
 
 on:
-  push:
-    branches:
-      - 14
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  BRANCH_REF: 14
+  BRANCH_REF: main
 
 jobs:
   build:
@@ -35,7 +36,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,14
+            type=raw,value=${{ github.event.inputs.tag }}
+            type=raw,latest
 
       - name: Build and push
         uses: docker/build-push-action@v2
