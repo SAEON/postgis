@@ -62,7 +62,7 @@ docker \
   run \
   -it \
   --rm ghcr.io/saeon/postgis:14 \
-    psql postgres://username:pswd@postgis.saeon.int:5432/postgres
+    psql postgres://username:pswd@<hostname>:5432/postgres
 ```
 
 ## User management
