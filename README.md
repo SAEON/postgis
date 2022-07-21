@@ -54,6 +54,17 @@ This repository builds an image and deploys it to postgis.saeon.ac.za
 
 # Managing Postgres
 
+## psql
+You can run the `psql` command via Docker on your system
+
+```sh
+docker \
+  run \
+  -it \
+  --rm ghcr.io/saeon/postgis:14 \
+    psql postgres://username:pswd@postgis.saeon.int:5432/postgres
+```
+
 ## User management
 ```sql
 -- Create a user
