@@ -61,7 +61,8 @@ You can run the `psql` command via Docker on your system
 docker \
   run \
   -it \
-  --rm ghcr.io/saeon/postgis:14 \
+  --rm \
+  ghcr.io/saeon/postgis:14 \
     psql postgres://username:pswd@<hostname>:5432/postgres
 ```
 
