@@ -63,7 +63,7 @@ jobs:
           username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
           password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
-          source: src/${{ github.event.inputs.tag }}/docker-compose.yml
+          source: src/${{ github.event.inputs.tag }}/stack.yml
           target: postgis
 
       - name: (SSH) Deploy Docker stack
@@ -74,7 +74,7 @@ jobs:
           password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
           script: |
-            echo "POSTGIS_IMAGE=${{ needs.build.outputs.image }}" > /home/runner/postgis/src/${{ github.event.inputs.tag }}/docker-compose.env
-            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> /home/runner/postgis/src/${{ github.event.inputs.tag }}/docker-compose.env
-            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> /home/runner/postgis/src/${{ github.event.inputs.tag }}/docker-compose.env
-            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/src/${{ github.event.inputs.tag }}/docker-compose.yml /home/runner/postgis/src/${{ github.event.inputs.tag }}/docker-compose.env postgis_${{ github.event.inputs.tag }}
+            echo "POSTGIS_IMAGE=${{ needs.build.outputs.image }}" > /home/runner/postgis/src/${{ github.event.inputs.tag }}/stack.env
+            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> /home/runner/postgis/src/${{ github.event.inputs.tag }}/stack.env
+            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> /home/runner/postgis/src/${{ github.event.inputs.tag }}/stack.env
+            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/src/${{ github.event.inputs.tag }}/stack.yml /home/runner/postgis/src/${{ github.event.inputs.tag }}/stack.env postgis_${{ github.event.inputs.tag }}
