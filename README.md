@@ -32,7 +32,7 @@ docker run \
   -d \
   ghcr.io/saeon/postgis:latest
 
-# Run PGAdmin4
+# Run PGAdmin4 (I recommend DBeaver instead actually)
 # Connection details
 #### host: postgis
 #### DB:   postgres
