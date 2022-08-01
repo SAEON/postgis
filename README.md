@@ -64,7 +64,7 @@ docker \
   -it \
   --rm \
   --net=postgis \
-  ghcr.io/saeon/postgis:14 \
+  ghcr.io/saeon/postgis:latest \
     psql postgres://username:pswd@<hostname>:5432/postgres
 ```
 
@@ -74,7 +74,7 @@ docker \
   run \
   -it \
   --rm \
-  ghcr.io/saeon/postgis:14 \
+  ghcr.io/saeon/postgis:latest \
     psql postgres://admin:password@<hostname>:5432/postgres
 ```
 
