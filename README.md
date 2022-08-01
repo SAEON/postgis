@@ -79,23 +79,43 @@ docker \
 ```
 
 ## User management
+***Create a new admin user for a database***
 ```sql
--- Create a user
+-- Log into PostgreSQL via an admin user to the postgres database
+set search_path to postgres;
+select current_database(); -- Should show postgres
+
+-- Create a user with all privileges on a new database
 create user "username" with encrypted password 'strongpassword';
+grant all privileges on database "db_name" to "username";
 
 -- Give that user admin access to a particular database
-grant all privileges on database "db_name" to "username";
+set search_path to db_name;
+select current_database(); -- Should show your new db
+grant all privileges on schema public to "username";
 grant all privileges on all tables in schema public to "username";
 grant all privileges on all sequences in schema public to "username";
 alter default privileges in schema public grant all on tables to "username";
 alter default privileges in schema public grant all on sequences to "username";
 alter default privileges in schema public grant all on functions to "username";
+```
 
--- Revoke access
-revoke all privileges on database "db_name" from "username";
-revoke all privileges on all tables in schema public from "username";
+***Revoke a user from a particular database***
+```sql
+-- Log into PostgreSQL via an admin user to database you want to remove the user from
+set search_path to db_name;
+select current_database(); -- Should show the DB you wan't to remove the user from
+
+-- Revoke access to all DB objects
 revoke all privileges on all sequences in schema public from "username";
+revoke all privileges on all tables in schema public from "username";
+revoke all privileges on schema public from "username";
 alter default privileges for role "username" in schema public revoke all on tables from "username";
 alter default privileges for role "username" in schema public revoke all on sequences from "username";
 alter default privileges for role "username" in schema public revoke all on functions from "username";
+
+-- Revoke access to the database
+set search_path to postgres;
+select current_database(); -- Should show postgres
+revoke all privileges on database "db_name" from "username";
 ```
