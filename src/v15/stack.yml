@@ -26,8 +26,8 @@ services:
         delay: 30s
       resources:
         limits:
-          cpus: '2'
-          memory: 2G
+          cpus: '8'
+          memory: 6G
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
