@@ -1,4 +1,4 @@
-FROM postgis/postgis:15beta2-3.2
+FROM postgis/postgis:15beta3-3.2
 
 RUN apt-get update -y
 RUN apt-get install postgis -y
