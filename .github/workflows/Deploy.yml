@@ -10,7 +10,6 @@ on:
         default: 5432
       name:
         required: true
-        type: environment
 
 env:
   BRANCH_REF: main
