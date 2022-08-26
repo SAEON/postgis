@@ -16,6 +16,10 @@ on:
 
 env:
   BRANCH_REF: main
+  HOST: ${{ secrets.DEPLOYMENT_HOSTNAME }}
+  USER: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
+  P: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
+  PORT: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
 
 jobs:
   deploy:
@@ -29,23 +33,23 @@ jobs:
       - name: (SCP) Copy Docker files to app server
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.DEPLOYMENT_HOSTNAME }}
-          username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
-          password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
-          port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
+          host: ${{ env.HOST }}
+          username: ${{ env.USER }}
+          password: ${{ env.PSWD }}
+          port: ${{ env.PORT }}
           source: src/stack.yml
           target: postgis
 
       - name: (SSH) Deploy Docker stack
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.DEPLOYMENT_HOSTNAME }}
-          username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
-          password: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
-          port: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
+          host: ${{ env.HOST }}
+          username: ${{ env.USER }}
+          password: ${{ env.PSWD }}
+          port: ${{ env.PORT }}
           script: |
-            echo "POSTGIS_IMAGE=ghcr.io/saeon/postgis:${{ github.event.inputs.postgis_image_version }}" > /home/runner/postgis/src/stack.env
-            echo "PORT=${{ github.event.inputs.port }}" >> /home/runner/postgis/src/stack.env
-            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> /home/runner/postgis/src/stack.env
-            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> /home/runner/postgis/src/stack.env
-            sudo /opt/deploy-docker-stack.sh /home/runner/postgis/src/stack.yml /home/runner/postgis/src/stack.env ${{ github.event.inputs.stack_name }}
+            echo "POSTGIS_IMAGE=ghcr.io/saeon/postgis:${{ github.event.inputs.postgis_image_version }}" > /home/${{ env.USER }}/postgis/src/stack.env
+            echo "PORT=${{ github.event.inputs.port }}" >> /home/${{ env.USER }}/postgis/src/stack.env
+            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> /home/${{ env.USER }}/postgis/src/stack.env
+            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> /home/${{ env.USER }}/postgis/src/stack.env
+            sudo /opt/deploy-docker-stack.sh /home/${{ env.USER }}/postgis/src/stack.yml /home/${{ env.USER }}/postgis/src/stack.env ${{ github.event.inputs.stack_name }}

@@ -3,6 +3,7 @@
     "appleboy",
     "pgdata",
     "pgsql",
-    "postgis"
+    "postgis",
+    "PSWD"
   ]
 }
