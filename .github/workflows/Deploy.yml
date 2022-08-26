@@ -18,7 +18,7 @@ env:
   BRANCH_REF: main
   HOST: ${{ secrets.DEPLOYMENT_HOSTNAME }}
   USER: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
-  P: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
+  PSWD: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
   PORT: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
 
 jobs:
