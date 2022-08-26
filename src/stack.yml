@@ -1,8 +1,8 @@
 version: '3.8'
 
 networks:
-  v15:
-    name: v15
+  pg:
+    name: $POSTGIS_IMAGE
     driver: overlay
     attachable: true
 
@@ -37,4 +37,4 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data/pgdata
     networks:
-      - v15
+      - $POSTGIS_IMAGE

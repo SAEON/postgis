@@ -1,4 +1,5 @@
-FROM postgis/postgis:14-3.2
+ARG POSTGIS_VERSION
+FROM postgis/postgis:$POSTGIS_VERSION
 
 RUN apt-get update -y
 RUN apt-get install postgis -y
