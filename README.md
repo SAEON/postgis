@@ -58,6 +58,11 @@ This repository builds an image and deploys it to postgis.saeon.ac.za
 
 # Managing Postgres
 
+## System settings
+```sql
+alter system set max_parallel_workers_per_gather = 4;
+```
+
 ## psql
 
 You can run the `psql` command via Docker
