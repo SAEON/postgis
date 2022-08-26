@@ -2,7 +2,7 @@ version: '3.8'
 
 networks:
   pg:
-    name: $STACK
+    name: pg
     driver: overlay
     attachable: true
 
@@ -37,4 +37,4 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data/pgdata
     networks:
-      - $STACK
+      - pg
