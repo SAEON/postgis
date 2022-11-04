@@ -5,11 +5,11 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents**
-
 - [Local development](#local-development)
 - [Deployment](#deployment)
-- [Managing Postgres](#managing-postgres)
+- [Managing PostgreSQL](#managing-postgresql)
+  - [System settings](#system-settings)
+  - [psql](#psql)
   - [User management](#user-management)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -54,9 +54,14 @@ docker run \
 
 # Deployment
 
-This repository builds an image and deploys it to postgis.saeon.ac.za
+This repository builds an image and deploys it to a single node Docker Swarm stack on postgis.saeon.ac.za. The command that is used (useful to include here for testing purposes):
 
-# Managing Postgres
+```sh
+export $(cat src/stack.env) > /dev/null 2>&1;
+docker stack deploy -c src/stack.yml postgis
+```
+
+# Managing PostgreSQL
 
 ## System settings
 ```sql
@@ -67,7 +72,7 @@ alter system set max_parallel_workers_per_gather = 4;
 
 You can run the `psql` command via Docker
 
-**_Access a local PostgrSQL server_**
+**_Access a local PostgreSQL server_**
 
 ```sh
 docker \

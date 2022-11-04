@@ -13,6 +13,17 @@ volumes:
 services:
   postgis:
     image: $POSTGIS_IMAGE
+    command: >-
+      postgres
+        -c random_page_cost=2
+        -c seq_page_cost=1
+        -c shared_buffers=512MB
+        -c work_mem=32MB
+        -c maintenance_work_mem=128MB
+        -c wal_buffers=4MB
+        -c wal_level=minimal
+        -c max_wal_senders=0
+        -c fsync=on
     deploy:
       replicas: 1
       rollback_config:
@@ -26,8 +37,8 @@ services:
         delay: 30s
       resources:
         limits:
-          cpus: "8"
-          memory: 6G
+          cpus: $CPUS
+          memory: $MEMORY
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD

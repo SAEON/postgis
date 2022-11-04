@@ -20,6 +20,10 @@ env:
   USER: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
   PSWD: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
   PORT: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  CPUS: "8"
+  MEMORY: 6G
 
 jobs:
   deploy:
@@ -50,6 +54,8 @@ jobs:
           script: |
             echo "POSTGIS_IMAGE=ghcr.io/saeon/postgis:${{ github.event.inputs.postgis_image_version }}" > /home/${{ env.USER }}/postgis/src/stack.env
             echo "PORT=${{ github.event.inputs.port }}" >> /home/${{ env.USER }}/postgis/src/stack.env
-            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> /home/${{ env.USER }}/postgis/src/stack.env
-            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> /home/${{ env.USER }}/postgis/src/stack.env
+            echo "POSTGRES_USER=${{ env.POSTGRES_USER }}" >> /home/${{ env.USER }}/postgis/src/stack.env
+            echo "POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}" >> /home/${{ env.USER }}/postgis/src/stack.env
+            echo "CPUS=${{ env.CPUS }}" >> /home/${{ env.USER }}/postgis/src/stack.env
+            echo "MEMORY=${{ env.MEMORY }}" >> /home/${{ env.USER }}/postgis/src/stack.env
             sudo /opt/deploy-docker-stack.sh /home/${{ env.USER }}/postgis/src/stack.yml /home/${{ env.USER }}/postgis/src/stack.env ${{ github.event.inputs.stack_name }}
