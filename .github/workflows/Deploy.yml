@@ -22,7 +22,7 @@ env:
   PORT: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
   POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-  CPUS: "8"
+  CPUS: "16"
   MEMORY: 6G
 
 jobs:
