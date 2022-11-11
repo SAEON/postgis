@@ -15,7 +15,7 @@ services:
     image: $POSTGIS_IMAGE
     command: >-
       postgres
-        -c random_page_cost=3.5
+        -c random_page_cost=4
         -c seq_page_cost=1
         -c shared_buffers=512MB
         -c work_mem=32MB
