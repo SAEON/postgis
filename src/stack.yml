@@ -15,7 +15,7 @@ services:
     image: $POSTGIS_IMAGE
     command: >-
       postgres
-        -c random_page_cost=2
+        -c random_page_cost=3.5
         -c seq_page_cost=1
         -c shared_buffers=512MB
         -c work_mem=32MB
@@ -24,7 +24,7 @@ services:
         -c wal_level=minimal
         -c max_wal_senders=0
         -c fsync=on
-        -c max_parallel_workers_per_gather=4
+        -c max_parallel_workers_per_gather=8
         -c max_parallel_maintenance_workers=4
     deploy:
       replicas: 1
