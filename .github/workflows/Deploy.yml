@@ -23,7 +23,7 @@ env:
   POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
   CPUS: "16"
-  MEMORY: 6G
+  MEMORY: 8G
 
 jobs:
   deploy:
