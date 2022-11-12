@@ -27,6 +27,7 @@ docker run \
   --name postgis \
   --net=saeon_local \
   --restart always \
+  -v /home/$USER:/home/$USER \
   -p 5432:5432 \
   -e POSTGRES_USER=admin \
   -e POSTGRES_PASSWORD=password \
