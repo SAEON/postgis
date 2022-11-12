@@ -20,12 +20,12 @@ The easiest way to work with PostGIS locally is to run the server as a Docker co
 
 ```sh
 # Create a Docker network
-docker network create --driver bridge postgis
+docker network create --driver bridge saeon_local
 
 # Create a PostGIS container
 docker run \
   --name postgis \
-  --net=postgis \
+  --net=saeon_local \
   --restart always \
   -p 5432:5432 \
   -e POSTGRES_USER=admin \
@@ -43,7 +43,7 @@ docker run \
 #### Pswd: password
 docker run \
   --rm \
-  --net=postgis \
+  --net=saeon_local \
   --name pgadmin \
   -p 5001:80 \
   -e PGADMIN_DEFAULT_EMAIL=<your email address> \
@@ -79,7 +79,7 @@ docker \
   run \
   -it \
   --rm \
-  --net=postgis \
+  --net=saeon_local \
   ghcr.io/saeon/postgis:latest \
     psql postgres://username:pswd@<hostname>:5432/postgres
 ```
