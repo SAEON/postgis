@@ -15,19 +15,20 @@ services:
     image: $POSTGIS_IMAGE
     command: >-
       postgres
+        -c fsync=on
+        -c maintenance_work_mem=128MB
+        -c max_parallel_maintenance_workers=2
+        -c max_parallel_workers_per_gather=4
+        -c max_parallel_workers=16
+        -c max_wal_senders=0
+        -c max_wal_size=1GB
+        -c max_worker_processes=16
         -c random_page_cost=4
         -c seq_page_cost=1
-        -c shared_buffers=512MB
-        -c work_mem=32MB
-        -c maintenance_work_mem=128MB
+        -c shared_buffers=2GB
         -c wal_buffers=4MB
         -c wal_level=minimal
-        -c max_wal_senders=0
-        -c fsync=on
-        -c max_worker_processes=16
-        -c max_parallel_workers=16
-        -c max_parallel_workers_per_gather=4
-        -c max_parallel_maintenance_workers=2
+        -c work_mem=32MB
     deploy:
       replicas: 1
       rollback_config:
