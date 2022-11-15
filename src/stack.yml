@@ -27,7 +27,7 @@ services:
         -c seq_page_cost=1
         -c shared_buffers=2GB
         -c wal_buffers=4MB
-        -c wal_level=minimal
+        -c wal_level=replica
         -c work_mem=32MB
     deploy:
       replicas: 1
