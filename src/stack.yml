@@ -23,7 +23,7 @@ services:
         -c max_wal_senders=0
         -c max_wal_size=1GB
         -c max_worker_processes=16
-        -c random_page_cost=4
+        -c random_page_cost=3.5
         -c seq_page_cost=1
         -c shared_buffers=2GB
         -c wal_buffers=4MB
