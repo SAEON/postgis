@@ -8,7 +8,6 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 - [Local development](#local-development)
 - [Deployment](#deployment)
 - [Managing PostgreSQL](#managing-postgresql)
-  - [System settings](#system-settings)
   - [psql](#psql)
   - [User management](#user-management)
 
@@ -63,11 +62,6 @@ docker stack deploy -c src/stack.yml postgis
 ```
 
 # Managing PostgreSQL
-
-## System settings
-```sql
-alter system set max_parallel_workers_per_gather = 4;
-```
 
 ## psql
 

@@ -5,32 +5,37 @@ on:
     inputs:
       postgis_image_version:
         required: true
+        default: 15-3.3
+        description: PostGIS image tag to use as base
         type: string
       port:
         required: true
+        description: PostgreSQL port
         default: 5432
         type: string
       stack_name:
         required: true
         type: string
+        description: Stack name
+        default: postgis_v15
 
 env:
   BRANCH_REF: main
-  HOST: ${{ secrets.DEPLOYMENT_HOSTNAME }}
-  USER: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
-  PSWD: ${{ secrets.DEPLOYMENT_HOST_PASSWORD }}
-  PORT: ${{ secrets.DEPLOYMENT_HOST_SSH_PORT }}
-  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  HOST: ${{ secrets.SWARM_HOSTNAME }} # Organization secret
+  USER: ${{ secrets.SWARM_USERNAME }} # Organization secret
+  PSWD: ${{ secrets.SWARM_PASSWORD }} # Organization secret
+  PORT: ${{ secrets.SWARM_SSH_PORT }} # Organization secret
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }} # Repository secret
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }} # Repository secret
   CPUS: "16"
   MEMORY: 8G
 
 jobs:
   deploy:
-    runs-on: github-runner.saeon.int
+    runs-on: saeon
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@master
         with:
           ref: ${{ env.BRANCH_REF }}
         
