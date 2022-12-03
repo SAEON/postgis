@@ -10,6 +10,8 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 - [Managing PostgreSQL](#managing-postgresql)
   - [psql](#psql)
   - [User management](#user-management)
+  - [Create a backup](#create-a-backup)
+  - [Restore a backup](#restore-a-backup)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -134,3 +136,9 @@ set search_path to postgres;
 select current_database(); -- Should show postgres
 revoke all privileges on database "db_name" from "username";
 ```
+
+## Create a backup
+TODO https://www.postgresql.org/docs/current/app-pgdump.html
+
+## Restore a backup
+TODO https://www.postgresql.org/docs/current/app-pgdump.html
