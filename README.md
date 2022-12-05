@@ -170,7 +170,7 @@ docker \
       "pg_dump \
         postgresql://user:password@host:port/db \
         --format directory \
-        -Z 7 \
+        -Z 9 \
         -j 12 \
         -f /home/$USER/db_bak"
 
