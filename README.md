@@ -138,7 +138,45 @@ revoke all privileges on database "db_name" from "username";
 ```
 
 ## Create a backup
-TODO https://www.postgresql.org/docs/current/app-pgdump.html
+Use the [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) client to take a backup:
+
+```sh
+cd ~
+
+# Regular backup
+docker \
+  run \
+  -d \
+  -v /home/$USER:/home/$USER \
+  --rm \
+  --net pg \
+  ghcr.io/saeon/postgis:latest \
+    sh -c \
+      "pg_dump \
+        postgresql://user:password@host:port/db \
+        --format custom \
+        -Z 9 \
+          > /home/$USER/db_bak"
+
+# Backup to directory (theoretically this allows for using multiple cores, but I'm not sure how that works with Docker)
+docker \
+  run \
+  -d \
+  -v /home/$USER:/home/$USER \
+  --rm \
+  --net pg \
+  ghcr.io/saeon/postgis:latest \
+    sh -c \
+      "pg_dump \
+        postgresql://user:password@host:port/db \
+        --format directory \
+        -Z 7 \
+        -j 12 \
+        -f /home/$USER/db_bak"
+
+# Then to watch progress / view logs
+docker container ls
+```
 
 ## Restore a backup
-TODO https://www.postgresql.org/docs/current/app-pgdump.html
+TODO
