@@ -143,7 +143,7 @@ Use the [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) clien
 ```sh
 cd ~
 
-# Regular backup
+# Regular backup (omit --rm to view logs of the exited container afterwards)
 docker \
   run \
   -d \
