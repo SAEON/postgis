@@ -146,7 +146,7 @@ Alternatively, you could install `pg_dump` or `pg_restore` on the host and then 
 Note the following:
 
 - The hostname is the name of the service as defined in the [stack compose file](/src/stack.yml)
-- The port is the published port of the container
+- The port is the published port of the container (not the internal port)
 
 ### Take a backup
 Assuming the target PostgreSQL Docker container is available on a network called `pg`:
