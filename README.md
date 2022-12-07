@@ -10,8 +10,9 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 - [Managing PostgreSQL](#managing-postgresql)
   - [psql](#psql)
   - [User management](#user-management)
-  - [Create a backup](#create-a-backup)
-  - [Restore a backup](#restore-a-backup)
+  - [Backups](#backups)
+    - [Take a backup](#take-a-backup)
+    - [Restore a backup](#restore-a-backup)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -137,13 +138,21 @@ select current_database(); -- Should show postgres
 revoke all privileges on database "db_name" from "username";
 ```
 
-## Create a backup
-Use the [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) client to take a backup:
+## Backups
+Use the [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) client to take a backup, and the [pg_restore](https://www.postgresql.org/docs/current/app-pgrestore.html) client to restore a backup. In the context of SAEON's deployment the easiest way to run these clients is via a PostgreSQL Docker container. The instructions below show how to achieve this. Basically the approach is to mount a directory from the host into a Docker container attached to the same network as another Docker container running the target PostgreSQL instance. Run the backup/restore clients against the target PostgreSQL instance and read/write to the mounted directory.
+
+Alternatively, you could install `pg_dump` or `pg_restore` on the host and then use these clients directly. But it is easier to write documentation for the Dockerized approach (such as below) and also easier to ensure that the correct client versions are used compared to the PostgreSQL server version.
+
+Note the following:
+
+- The hostname is the name of the service as defined in the [stack compose file](/src/stack.yml)
+- The port is the published port of the container
+
+### Take a backup
+Assuming the target PostgreSQL Docker container is available on a network called `pg`:
 
 ```sh
 cd ~
-
-# Regular backup (omit --rm to view logs of the exited container afterwards)
 docker \
   run \
   -d \
@@ -157,26 +166,21 @@ docker \
         --format custom \
         -Z 9 \
           > /home/$USER/db_bak"
+```
 
-# Backup to directory (theoretically this allows for using multiple cores, but I'm not sure how that works with Docker)
+### Restore a backup
+Assuming a backup was taken with the above command, and the target PostgreSQL Docker container is available on a network called `pg`:
+
+```sh
+cd ~
 docker \
   run \
   -d \
   -v /home/$USER:/home/$USER \
-  --rm \
   --net pg \
   ghcr.io/saeon/postgis:latest \
     sh -c \
-      "pg_dump \
-        postgresql://user:password@host:port/db \
-        --format directory \
-        -Z 9 \
-        -j 12 \
-        -f /home/$USER/db_bak"
-
-# Then to watch progress / view logs
-docker container ls
+      "pg_restore \
+        -d postgresql://user:password@host:port/db \
+        /home/$USER/db_bak"
 ```
-
-## Restore a backup
-TODO
