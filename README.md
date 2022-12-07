@@ -56,13 +56,9 @@ docker run \
 ```
 
 # Deployment
+The official PostGIS image doesn't include PostGIS binaries such as `raster2pgsql`. To use the PostGIS tooling via Docker container the official Docker image is extended slightly (refer to [src/Dockerfile](/src/Dockerfile)), and when built hosted as a package in this repository ([ghcr.io/saeon/postgis:latest](https://github.com/SAEON/postgis/pkgs/container/postgis)).
 
-This repository builds an image and deploys it to a single node Docker Swarm stack on postgis.saeon.ac.za. The command that is used (useful to include here for testing purposes):
-
-```sh
-export $(cat src/stack.env) > /dev/null 2>&1;
-docker stack deploy -c src/stack.yml postgis
-```
+The SAEON PostGIS image is deployed as a Docker swarm service via GitHub Actions (refer to the [stack configuration file](/src/stack.yml)).
 
 # Managing PostgreSQL
 
