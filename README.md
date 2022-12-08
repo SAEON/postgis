@@ -9,6 +9,8 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 - [Deployment](#deployment)
 - [Managing PostgreSQL](#managing-postgresql)
   - [psql](#psql)
+    - [Interactively](#interactively)
+    - [Non-interactively](#non-interactively)
   - [User management](#user-management)
   - [Backups](#backups)
     - [Take a backup](#take-a-backup)
@@ -64,29 +66,39 @@ The SAEON PostGIS image is deployed as a Docker swarm service via GitHub Actions
 
 ## psql
 
-You can run the `psql` command via Docker
-
-**_Access a local PostgreSQL server_**
+### Interactively
+You can start the PSQL cli for interactive use either by logging into an active container (`docker exec -it ...`), or running the CLI via a Docker container. To do this:
 
 ```sh
+# Assuming a Docker network called `pg`
 docker \
   run \
   -it \
   --rm \
-  --net=saeon_local \
+  --net=pg \
   ghcr.io/saeon/postgis:latest \
-    psql postgres://username:pswd@<hostname>:5432/postgres
+    psql postgres://user:password@host:port/db
 ```
 
-**_Access a remote PostgrSQL server_**
+### Non-interactively
+It's also useful to be able to start long-running jobs non-interactively. For example, building an index that may take a long time:
 
 ```sh
+# Assuming the PostGIS container is on an attachable network called 'pg'
+# The host is the name of a Docker stack service
+# Omit --rm if you would like to view the psql logs of the completed container afterwards
 docker \
   run \
-  -it \
+  -d \
+  -v /home/$USER:/home/$USER \
   --rm \
+  --net pg \
   ghcr.io/saeon/postgis:latest \
-    psql postgres://admin:password@<hostname>:5432/postgres
+    sh -c \
+      "psql \
+        postgresql://user:passwored@host:port/db \
+        -c 'create index if not exists ....;' \
+        -c 'some other sql cmd;'"
 ```
 
 ## User management
@@ -149,6 +161,8 @@ Assuming the target PostgreSQL Docker container is available on a network called
 
 ```sh
 cd ~
+
+# Omit --rm if you would like to view the pg_dump logs of the finished container afterwards
 docker \
   run \
   -d \
@@ -169,14 +183,18 @@ Assuming a backup was taken with the above command, and the target PostgreSQL Do
 
 ```sh
 cd ~
+
+# Omit --rm if you would like to view the pg_dump logs of the finished container afterwards
 docker \
   run \
   -d \
   -v /home/$USER:/home/$USER \
+  --rm \
   --net pg \
   ghcr.io/saeon/postgis:latest \
     sh -c \
       "pg_restore \
         -d postgresql://user:password@host:port/db \
+        -j 12 \
         /home/$USER/db_bak"
 ```
