@@ -96,7 +96,7 @@ docker \
   ghcr.io/saeon/postgis:latest \
     sh -c \
       "psql \
-        postgresql://user:passwored@host:port/db \
+        postgresql://user:password@host:port/db \
         -c 'create index if not exists ....;' \
         -c 'some other sql cmd;'"
 ```
