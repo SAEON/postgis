@@ -29,6 +29,9 @@ services:
         -c wal_buffers=4MB
         -c wal_level=replica
         -c work_mem=32MB
+        -c track_counts=on
+        -c autovacuum=on
+        -c autovacuum_max_workers=8
     deploy:
       replicas: 1
       rollback_config:
