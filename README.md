@@ -15,6 +15,8 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
   - [Backups](#backups)
     - [Take a backup](#take-a-backup)
     - [Restore a backup](#restore-a-backup)
+- [Useful operations](#useful-operations)
+  - [Loading shapfiles (GDAL ogr2ogr)](#loading-shapfiles-gdal-ogr2ogr)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -197,4 +199,27 @@ docker \
         -d postgresql://user:password@host:port/db \
         -j 12 \
         /home/$USER/db_bak"
+```
+
+# Useful operations
+Some useful commands for interacting with PostGIS instances
+
+## Loading shapfiles (GDAL ogr2ogr)
+```sh
+docker run \
+  -v /home/$USER/:/home/$USER/ \
+  --rm \
+   osgeo/gdal:ubuntu-full-3.5.1 \
+    ogr2ogr \
+    --config PG_USE_COPY YES \
+    -skipfailures \
+    -overwrite \
+    -gt 100000 \
+    -f PostgreSQL \
+    -lco LAUNDER=NO \
+    -lco PRECISION=NO \
+    -nlt PROMOTE_TO_MULTI \
+    -nln mpas \
+    "PG:host=hostname port=5432 user=username password=password dbname=dbname active_schema=public" \
+    /vsizip/home/$USER/path/to/shapefile.zip
 ```
