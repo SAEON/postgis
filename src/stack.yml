@@ -34,6 +34,9 @@ services:
         -c autovacuum_max_workers=8
     deploy:
       replicas: 1
+      placement:
+        constraints:
+          - node.labels.service == postgres
       rollback_config:
         parallelism: 0
       update_config:
