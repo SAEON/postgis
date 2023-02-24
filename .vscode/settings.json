@@ -1,9 +1,3 @@
 {
-  "cSpell.words": [
-    "appleboy",
-    "pgdata",
-    "pgsql",
-    "postgis",
-    "PSWD"
-  ]
+  "cSpell.words": ["appleboy", "autovacuum", "pgdata", "pgsql", "postgis", "PSWD"]
 }

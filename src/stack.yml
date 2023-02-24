@@ -16,7 +16,7 @@ services:
     command: >-
       postgres
         -c fsync=on
-        -c maintenance_work_mem=128MB
+        -c maintenance_work_mem=2GB
         -c max_parallel_maintenance_workers=2
         -c max_parallel_workers_per_gather=6
         -c max_parallel_workers=16
@@ -26,12 +26,14 @@ services:
         -c random_page_cost=3.5
         -c seq_page_cost=1
         -c shared_buffers=2GB
-        -c wal_buffers=4MB
-        -c wal_level=replica
-        -c work_mem=32MB
+        -c wal_writer_delay=100ms
+        -c wal_buffers=128MB
+        -c wal_level=minimal
+        -c work_mem=256MB
         -c track_counts=on
         -c autovacuum=on
         -c autovacuum_max_workers=8
+        -c autovacuum_vacuum_cost_delay=-1
     deploy:
       replicas: 1
       placement:
