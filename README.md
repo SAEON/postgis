@@ -8,6 +8,7 @@ The base postgis/postgis image does not have PostGIS-related CLIs enabled. To us
 - [Local development](#local-development)
 - [Deployment](#deployment)
 - [Managing PostgreSQL](#managing-postgresql)
+  - [Server configuration](#server-configuration)
   - [psql](#psql)
     - [Interactively](#interactively)
     - [Non-interactively](#non-interactively)
@@ -60,15 +61,25 @@ docker run \
 ```
 
 # Deployment
+
 The official PostGIS image doesn't include PostGIS binaries such as `raster2pgsql`. To use PostGIS binaries via CLIs within Docker containers, the official Docker image is extended slightly (refer to [src/Dockerfile](/src/Dockerfile)), and when built hosted as a package in this repository ([ghcr.io/saeon/postgis:latest](https://github.com/SAEON/postgis/pkgs/container/postgis)).
 
 The SAEON PostGIS image is deployed as a Docker swarm service via GitHub Actions (refer to the [stack configuration file](/src/stack.yml)).
 
 # Managing PostgreSQL
 
+## Server configuration
+
+The container mounts `/dev/shm` into the container, as otherwise the container is limited to 64MB of shared memory (not enough). Make sure that there is a `tmpfs` directory available at `/dev/shm` on the host. If there isn't, mount this directory like so:
+
+```sh
+sudo mount -t tmpfs -o size=4G tmpfs /dev/shm
+```
+
 ## psql
 
 ### Interactively
+
 You can start the PSQL cli for interactive use either by logging into an active container (`docker exec -it ...`), or running the CLI via a Docker container. To do this:
 
 ```sh
@@ -83,6 +94,7 @@ docker \
 ```
 
 ### Non-interactively
+
 It's also useful to be able to start long-running jobs non-interactively. For example, building an index that may take a long time:
 
 ```sh
@@ -149,6 +161,7 @@ revoke all privileges on database "db_name" from "username";
 ```
 
 ## Backups
+
 Use the [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) client to take a backup, and the [pg_restore](https://www.postgresql.org/docs/current/app-pgrestore.html) client to restore a backup. In the context of SAEON's deployment the easiest way to run these clients is via a PostgreSQL Docker container. The instructions below show how to achieve this. Basically the approach is to mount a directory from the host into a Docker container attached to the same network as another Docker container running the target PostgreSQL instance. Run the backup/restore clients against the target PostgreSQL instance and read/write to the mounted directory.
 
 Alternatively, you could install `pg_dump` or `pg_restore` on the host and then use these clients directly. But it is easier to write documentation for the Dockerized approach (such as below) and also easier to ensure that the correct client versions are used compared to the PostgreSQL server version.
@@ -159,6 +172,7 @@ Note the following:
 - The port is the published port of the container (not the internal port)
 
 ### Take a backup
+
 Assuming the target PostgreSQL Docker container is available on a network called `pg`:
 
 ```sh
@@ -181,6 +195,7 @@ docker \
 ```
 
 ### Restore a backup
+
 Assuming a backup was taken with the above command, and the target PostgreSQL Docker container is available on a network called `pg`:
 
 ```sh
@@ -202,9 +217,11 @@ docker \
 ```
 
 # Useful operations
+
 Some useful commands for interacting with PostGIS instances
 
 ## Loading shapfiles (GDAL ogr2ogr)
+
 ```sh
 docker run \
   -v /home/$USER/:/home/$USER/ \
