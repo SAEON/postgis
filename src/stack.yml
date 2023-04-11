@@ -19,6 +19,7 @@ services:
         -c autovacuum_vacuum_cost_delay=-1
         -c autovacuum=on
         -c fsync=on
+        -c jit=on
         -c maintenance_work_mem=4GB
         -c max_connections=100
         -c max_locks_per_transaction=256
@@ -32,7 +33,6 @@ services:
         -c random_page_cost=3
         -c seq_page_cost=1
         -c shared_buffers=4GB
-        -c jit=on
         -c track_counts=on
         -c wal_buffers=512MB
         -c wal_level=minimal
