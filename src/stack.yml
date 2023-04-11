@@ -15,30 +15,35 @@ services:
     image: $POSTGIS_IMAGE
     command: >-
       postgres
+        -c autovacuum_max_workers=8
+        -c autovacuum_vacuum_cost_delay=-1
+        -c autovacuum=on
         -c fsync=on
+        -c maintenance_work_mem=128MB
         -c maintenance_work_mem=2GB
-        -c max_parallel_maintenance_workers=2
-        -c max_parallel_workers_per_gather=6
+        -c max_connections=100
+        -c max_locks_per_transaction=256
+        -c max_parallel_maintenance_workers=4
+        -c max_parallel_workers_per_gather=8
         -c max_parallel_workers=16
+        -c max_prepared_transactions=100
         -c max_wal_senders=0
         -c max_wal_size=1GB
         -c max_worker_processes=16
         -c random_page_cost=3.5
         -c seq_page_cost=1
         -c shared_buffers=2GB
-        -c wal_writer_delay=100ms
+        -c track_counts=on
+        -c track_counts=on
         -c wal_buffers=128MB
         -c wal_level=minimal
+        -c wal_writer_delay=100ms
         -c work_mem=256MB
-        -c track_counts=on
-        -c autovacuum=on
-        -c autovacuum_max_workers=8
-        -c autovacuum_vacuum_cost_delay=-1
     deploy:
       replicas: 1
       placement:
         constraints:
-          - node.labels.service == postgres
+          - node.labels.postgres == true
       rollback_config:
         parallelism: 0
       update_config:
