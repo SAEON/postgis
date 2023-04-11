@@ -1,15 +1,18 @@
 {
-<<<<<<< HEAD
-  "cSpell.words": ["appleboy", "autovacuum", "pgdata", "pgsql", "postgis", "PSWD"]
-}
-=======
   "cSpell.words": [
     "appleboy",
     "autovacuum",
+    "Dockerized",
+    "dpage",
+    "PGADMIN",
     "pgdata",
     "pgsql",
     "postgis",
-    "PSWD"
+    "psql",
+    "PSWD",
+    "shapefile",
+    "shapefiles",
+    "tmpfs",
+    "vsizip"
   ]
 }
->>>>>>> temp

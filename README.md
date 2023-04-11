@@ -220,7 +220,7 @@ docker \
 
 Some useful commands for interacting with PostGIS instances
 
-## Loading shapfiles (GDAL ogr2ogr)
+## Loading shapefiles (GDAL ogr2ogr)
 
 ```sh
 docker run \
