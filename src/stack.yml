@@ -19,7 +19,6 @@ services:
         -c autovacuum_vacuum_cost_delay=-1
         -c autovacuum=on
         -c fsync=on
-        -c maintenance_work_mem=128MB
         -c maintenance_work_mem=2GB
         -c max_connections=100
         -c max_locks_per_transaction=256
@@ -28,14 +27,13 @@ services:
         -c max_parallel_workers=16
         -c max_prepared_transactions=100
         -c max_wal_senders=0
-        -c max_wal_size=1GB
+        -c max_wal_size=4GB
         -c max_worker_processes=16
         -c random_page_cost=3.5
         -c seq_page_cost=1
         -c shared_buffers=2GB
         -c track_counts=on
-        -c track_counts=on
-        -c wal_buffers=128MB
+        -c wal_buffers=512MB
         -c wal_level=minimal
         -c wal_writer_delay=100ms
         -c work_mem=256MB
