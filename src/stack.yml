@@ -21,7 +21,7 @@ services:
         -c fsync=on
         -c jit=on
         -c maintenance_work_mem=4GB
-        -c max_connections=100
+        -c max_connections=56
         -c max_locks_per_transaction=256
         -c max_parallel_maintenance_workers=4
         -c max_parallel_workers_per_gather=16
@@ -37,7 +37,7 @@ services:
         -c wal_buffers=512MB
         -c wal_level=minimal
         -c wal_writer_delay=100ms
-        -c work_mem=512MB
+        -c work_mem=128MB
     deploy:
       replicas: 1
       placement:
