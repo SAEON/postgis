@@ -31,7 +31,7 @@ services:
         -c max_wal_senders=0
         -c max_wal_size=4GB
         -c max_worker_processes=16
-        -c random_page_cost=3
+        -c random_page_cost=1.5
         -c seq_page_cost=1
         -c shared_buffers=4GB
         -c track_counts=on
