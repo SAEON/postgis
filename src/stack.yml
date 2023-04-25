@@ -20,6 +20,7 @@ services:
         -c autovacuum=on
         -c fsync=on
         -c jit=on
+        -c log_statement=all
         -c maintenance_work_mem=4GB
         -c max_connections=56
         -c max_locks_per_transaction=256
