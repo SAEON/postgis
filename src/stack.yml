@@ -18,10 +18,12 @@ services:
         -c autovacuum_max_workers=8
         -c autovacuum_vacuum_cost_delay=-1
         -c autovacuum=on
+        -c effective_cache_size=4GB
+        -c effective_io_concurrency=4
         -c fsync=on
         -c jit=on
-        -c log_statement=all
-        -c maintenance_work_mem=4GB
+        -c log_statement=ddl
+        -c maintenance_work_mem=256MB
         -c max_connections=56
         -c max_locks_per_transaction=256
         -c max_parallel_maintenance_workers=4
@@ -31,7 +33,7 @@ services:
         -c max_wal_senders=0
         -c max_wal_size=4GB
         -c max_worker_processes=16
-        -c random_page_cost=1.5
+        -c random_page_cost=2
         -c seq_page_cost=1
         -c shared_buffers=4GB
         -c track_counts=on
